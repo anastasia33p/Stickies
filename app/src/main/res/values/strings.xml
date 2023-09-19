@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Stickies</string>
+    <string name="sync">Синхронизовать</string>
 </resources>
