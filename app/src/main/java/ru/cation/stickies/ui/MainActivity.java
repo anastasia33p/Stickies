@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.app.Fragment;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -60,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
             list.add("fdsfdsjlksdh");
             adapter.notifyItemInserted(list.size()-1);
             EditorFragment fragment=new EditorFragment();
+
             fragment.show(getSupportFragmentManager(), "hkh");
 
 
