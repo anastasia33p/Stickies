@@ -1,51 +1,42 @@
 package ru.cation.stickies.adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.List;
-
-import ru.cation.stickies.R;
 import ru.cation.stickies.databinding.StickerItemBinding;
+import ru.cation.stickies.models.StickiesItem;
+import ru.cation.stickies.ui.OnItemClickListener;
 
-public class MainGridAdapter extends RecyclerView.Adapter {
-
-
-    private final Context context;
-    private List<String> texts;
-
-    public MainGridAdapter(Context context, List<String> texts) {
-        this.context = context;
-        this.texts = texts;
+public class MainGridAdapter extends ListAdapter<StickiesItem,MainGridAdapter.StickerItemHolder> {
+    private final OnItemClickListener itemClickListener;
+    public MainGridAdapter(OnItemClickListener itemClickListener) {
+        super(new StickiesItemDiffCallback());
+        this.itemClickListener = itemClickListener;
     }
+
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-        StickerItemBinding binding = StickerItemBinding.bind(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.sticker_item, parent, false));
-
+    public StickerItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        StickerItemBinding binding = StickerItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new StickerItemHolder(binding);
     }
 
-
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        String ss ="";
-        for (int i = 0; i < position; i++) {
-            ss += position+" "+texts.get(position)+"\n";
-        }
-        ((StickerItemHolder)holder).binding.textView.setText(ss);
+    public void onBindViewHolder(@NonNull StickerItemHolder holder, int position) {
+        StickiesItem item=getItem(position);
+        holder.binding.textView.setText(item.getText());
+        holder.binding.stickerItem.setOnClickListener(view -> itemClickListener.onItemClick(getItem(position), position));
     }
 
     @Override
     public int getItemCount() {
-        return texts.size();
+        return super.getItemCount();
     }
 
 
@@ -55,6 +46,18 @@ public class MainGridAdapter extends RecyclerView.Adapter {
         public StickerItemHolder(@NonNull StickerItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+        }
+    }
+
+    private static class StickiesItemDiffCallback extends DiffUtil.ItemCallback<StickiesItem> {
+        @Override
+        public boolean areItemsTheSame(@NonNull StickiesItem oldItem, @NonNull StickiesItem newItem) {
+            return oldItem.getId() == newItem.getId();
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull StickiesItem oldItem, @NonNull StickiesItem newItem) {
+            return oldItem.equals(newItem);
         }
     }
 

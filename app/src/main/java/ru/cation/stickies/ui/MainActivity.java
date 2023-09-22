@@ -1,22 +1,18 @@
 package ru.cation.stickies.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-import android.app.Fragment;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.cation.stickies.R;
 import ru.cation.stickies.adapters.MainGridAdapter;
 import ru.cation.stickies.databinding.ActivityMainBinding;
+import ru.cation.stickies.models.StickiesItem;
 import ru.cation.stickies.viewmodel.MainActivityViewModel;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,44 +22,42 @@ public class MainActivity extends AppCompatActivity {
     private StaggeredGridLayoutManager layoutManager;
     private List<String> list = new ArrayList<>();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
-        list.add("sdfdfs");
-        list.add("sdfdfs");
-        list.add("sdfdfs");
-        list.add("sdfdfs");
-
         viewModel = new MainActivityViewModel(getApplication());
 
-        adapter = new MainGridAdapter(this, list);
+
+        adapter = new MainGridAdapter(itemClick);
         layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         binding.content.setAdapter(adapter);
         binding.content.setLayoutManager(layoutManager);
-
+        observeContent();
 
 
         initClicks();
 
-        viewModel.getCount().observe(this, integer -> {
-            Toast.makeText(this, integer.toString(), Toast.LENGTH_SHORT).show();
 
+    }
+    public OnItemClickListener itemClick = (item, position) -> {
+        EditorFragment fragment=new EditorFragment(getApplication());
+        fragment.show(getSupportFragmentManager(), "hkh");
+    };
+    private void initClicks() {
+        binding.add.setOnClickListener(view -> {
+            EditorFragment fragment=new EditorFragment(getApplication());
+            fragment.show(getSupportFragmentManager(), "hkh");
         });
     }
 
-    private void initClicks() {
-        binding.add.setOnClickListener(view -> {
-            viewModel.increase();
-            list.add("fdsfdsjlksdh");
-            adapter.notifyItemInserted(list.size()-1);
-            EditorFragment fragment=new EditorFragment();
-
-            fragment.show(getSupportFragmentManager(), "hkh");
-
+    private void observeContent(){
+        viewModel.getStickiesItemLiveData().observe(this, stickerItems -> {
+            adapter.submitList(null);
+            adapter.submitList(stickerItems);
 
         });
     }
