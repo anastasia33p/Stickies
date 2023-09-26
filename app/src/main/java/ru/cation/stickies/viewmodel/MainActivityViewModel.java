@@ -36,7 +36,14 @@ public class MainActivityViewModel extends AndroidViewModel {
                 .subscribe(stickiesItemsLiveData::postValue);
 
     }
-
+    @SuppressLint("CheckResult")
+    public void removeById(StickiesItem item){
+        repo
+                .removeStickiesItemById(item.getId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();
+    }
     public MutableLiveData<List<StickiesItem>> getStickiesItemLiveData() {
         return stickiesItemsLiveData;
     }

@@ -11,12 +11,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import ru.cation.stickies.databinding.StickerItemBinding;
 import ru.cation.stickies.models.StickiesItem;
 import ru.cation.stickies.ui.OnItemClickListener;
+import ru.cation.stickies.ui.OnItemLongClickListener;
 
 public class MainGridAdapter extends ListAdapter<StickiesItem,MainGridAdapter.StickerItemHolder> {
     private final OnItemClickListener itemClickListener;
-    public MainGridAdapter(OnItemClickListener itemClickListener) {
+    private final OnItemLongClickListener itemLongClickListener;
+    public MainGridAdapter(OnItemClickListener itemClickListener, OnItemLongClickListener itemLongClickListener) {
         super(new StickiesItemDiffCallback());
         this.itemClickListener = itemClickListener;
+        this.itemLongClickListener = itemLongClickListener;
     }
 
 
@@ -32,6 +35,7 @@ public class MainGridAdapter extends ListAdapter<StickiesItem,MainGridAdapter.St
         StickiesItem item=getItem(position);
         holder.binding.textView.setText(item.getText());
         holder.binding.stickerItem.setOnClickListener(view -> itemClickListener.onItemClick(getItem(position), position));
+        holder.binding.stickerItem.setOnClickListener(view -> itemLongClickListener.onItemLongClick(getItem(position),position));
     }
 
     @Override

@@ -1,7 +1,10 @@
 package ru.cation.stickies.database;
 
+import static androidx.lifecycle.Transformations.map;
+
 import android.content.Context;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Completable;
@@ -33,3 +36,5 @@ public class StickiesItemRepo {
         return stickiesItemDAO.getStickiesItemById(id);
     }
 }
+
+

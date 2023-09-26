@@ -1,8 +1,10 @@
 package ru.cation.stickies.ui;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import java.util.ArrayList;
@@ -32,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         viewModel = new MainActivityViewModel(getApplication());
 
 
-        adapter = new MainGridAdapter(itemClick);
+        adapter = new MainGridAdapter(itemClick, itemLongClick);
         layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         binding.content.setAdapter(adapter);
         binding.content.setLayoutManager(layoutManager);
@@ -43,22 +45,53 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
     public OnItemClickListener itemClick = (item, position) -> {
-        EditorFragment fragment=new EditorFragment(getApplication());
+        EditorFragment fragment = new EditorFragment(getApplication());
         fragment.show(getSupportFragmentManager(), "hkh");
     };
+
+    public OnItemLongClickListener itemLongClick = (item, position) -> {
+        showDeleteConfirmationDialog(item);
+    };
+
     private void initClicks() {
         binding.add.setOnClickListener(view -> {
-            EditorFragment fragment=new EditorFragment(getApplication());
+            EditorFragment fragment = new EditorFragment(getApplication());
             fragment.show(getSupportFragmentManager(), "hkh");
         });
     }
 
-    private void observeContent(){
+    private void observeContent() {
         viewModel.getStickiesItemLiveData().observe(this, stickerItems -> {
             adapter.submitList(null);
             adapter.submitList(stickerItems);
 
         });
+    }
+
+    private void showDeleteConfirmationDialog(StickiesItem item) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle("Удаление");
+        alertDialogBuilder.setMessage("Вы уверены, что хотите удалить это?");
+
+        alertDialogBuilder.setPositiveButton("Да", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                viewModel.removeById(item);
+                dialog.dismiss(); // Закрываем диалог
+            }
+        });
+
+        alertDialogBuilder.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        // Создаем и отображаем AlertDialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 }
