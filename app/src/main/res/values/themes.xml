@@ -10,6 +10,7 @@
         <!-- Customize your theme here. -->
         <item name="foreground">@color/light_green</item>
         <item name="background">@color/dark_green</item>
+        <item name="transparentBackground">@color/transparent_black</item>
         <item name="stickcolor">@color/dark_light_light_green</item>
     </style>
 </resources>

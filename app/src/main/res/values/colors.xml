@@ -3,5 +3,6 @@
     <color name="dark_green">#535A3B</color>
     <color name="light_green">#EFF7D3</color>
     <color name="dark_dark_light_green">#A7B99E</color>
+    <color name="transparent_black">#77000000</color>
     <color name="dark_light_light_green">#cedcc3</color>
 </resources>

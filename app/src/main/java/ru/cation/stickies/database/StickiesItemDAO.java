@@ -27,4 +27,7 @@ public interface StickiesItemDAO {
 
     @Query("SELECT * FROM stickiesBase WHERE id = :id")
     Single<StickiesItem> getStickiesItemById(String id);
+
+    @Query("SELECT id FROM stickiesBase")
+    Flowable<List<String>> getAllStickiesItemIds();
 }

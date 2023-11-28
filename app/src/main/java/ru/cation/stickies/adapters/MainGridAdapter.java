@@ -13,9 +13,10 @@ import ru.cation.stickies.models.StickiesItem;
 import ru.cation.stickies.ui.OnItemClickListener;
 import ru.cation.stickies.ui.OnItemLongClickListener;
 
-public class MainGridAdapter extends ListAdapter<StickiesItem,MainGridAdapter.StickerItemHolder> {
+public class MainGridAdapter extends ListAdapter<StickiesItem, MainGridAdapter.StickerItemHolder> {
     private final OnItemClickListener itemClickListener;
     private final OnItemLongClickListener itemLongClickListener;
+
     public MainGridAdapter(OnItemClickListener itemClickListener, OnItemLongClickListener itemLongClickListener) {
         super(new StickiesItemDiffCallback());
         this.itemClickListener = itemClickListener;
@@ -32,10 +33,11 @@ public class MainGridAdapter extends ListAdapter<StickiesItem,MainGridAdapter.St
 
     @Override
     public void onBindViewHolder(@NonNull StickerItemHolder holder, int position) {
-        StickiesItem item=getItem(position);
+        StickiesItem item = getItem(position);
         holder.binding.textView.setText(item.getText());
         holder.binding.stickerItem.setOnClickListener(view -> itemClickListener.onItemClick(getItem(position), position));
-        holder.binding.stickerItem.setOnClickListener(view -> itemLongClickListener.onItemLongClick(getItem(position),position));
+        holder.binding.stickerItem.setOnLongClickListener(view -> itemLongClickListener.onItemLongClick(getItem(position), position));
+
     }
 
     @Override

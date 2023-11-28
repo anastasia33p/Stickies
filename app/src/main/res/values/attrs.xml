@@ -2,5 +2,6 @@
 <resources>
     <attr name="foreground" format="reference"/>
     <attr name="background" format="reference"/>
+    <attr name="transparentBackground" format="reference"/>
     <attr name="stickcolor" format="reference"/>
 </resources>

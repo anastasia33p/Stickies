@@ -35,6 +35,10 @@ public class StickiesItemRepo {
     public Single<StickiesItem> getStickiesItemById(String id){
         return stickiesItemDAO.getStickiesItemById(id);
     }
+
+    public Flowable<List<String>> getAllStickiesItemIds() {
+        return stickiesItemDAO.getAllStickiesItemIds();
+    }
 }
 
 

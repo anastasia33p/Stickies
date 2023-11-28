@@ -63,18 +63,32 @@ public class EditorFragmentViewModel extends AndroidViewModel {
     }
 
     @SuppressLint("CheckResult")
-    public void addSticker(String data) {
-
-        repo
-                .getAllStickiesItems().take(1)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(stickiesItems -> {
-                    String id = findId(getIdList(stickiesItems)).toString();
-                    String name = "test";
-                    StickiesItem stickiesItem = new StickiesItem(id, name, data);
-                    repo.insertStickiesItem(stickiesItem).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe();
-                },throwable -> {});
+    public void addSticker(String data, StickiesItem item) {
+        if (item.getId() == "new") {
+            repo
+                    .getAllStickiesItems().take(1)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(stickiesItems -> {
+                        String id = findId(getIdList(stickiesItems)).toString();
+                        String name = "test";
+                        StickiesItem stickiesItem = new StickiesItem(id, name, data);
+                        repo.insertStickiesItem(stickiesItem). observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe();
+                    }, throwable -> {
+                    });
+        } else {
+            repo
+                    .getAllStickiesItems().take(1)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(stickiesItems -> {
+                        String id = item.getId();
+                        String name = "test";
+                        StickiesItem stickiesItem = new StickiesItem(id, name, data);
+                        repo.insertStickiesItem(stickiesItem).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe();
+                    }, throwable -> {
+                    });
+        }
     }
 
 }

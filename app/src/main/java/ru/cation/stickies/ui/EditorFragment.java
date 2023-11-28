@@ -29,21 +29,27 @@ import ru.cation.stickies.models.StickiesItem;
 import ru.cation.stickies.viewmodel.EditorFragmentViewModel;
 
 public class EditorFragment extends BottomSheetDialogFragment {
-
+    private StickiesItem item=new StickiesItem("new","test","");
     private EditorFragmentViewModel viewModel;
     private EditorBinding binding;
+    private String itemText;
 
 
     public EditorFragment(Application application) {
         viewModel=new EditorFragmentViewModel(application);
 
     }
-
+    public void setId(StickiesItem item){
+        this.item=item;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = EditorBinding.inflate(inflater);
+
+        binding.editText.setText(item.getText());
         initClicks();
+
         return binding.getRoot();
     }
 
@@ -84,7 +90,7 @@ public class EditorFragment extends BottomSheetDialogFragment {
     private void initClicks() {
         binding.saveButton.setOnClickListener(view -> {
             String input=binding.editText.getText().toString();
-            viewModel.addSticker(input);
+            viewModel.addSticker(input,item);
             dismiss();
         });
     }
