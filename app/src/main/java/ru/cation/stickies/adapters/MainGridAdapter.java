@@ -37,7 +37,6 @@ public class MainGridAdapter extends ListAdapter<StickiesItem, MainGridAdapter.S
         holder.binding.textView.setText(item.getText());
         holder.binding.stickerItem.setOnClickListener(view -> itemClickListener.onItemClick(getItem(position), position));
         holder.binding.stickerItem.setOnLongClickListener(view -> itemLongClickListener.onItemLongClick(getItem(position), position));
-
     }
 
     @Override

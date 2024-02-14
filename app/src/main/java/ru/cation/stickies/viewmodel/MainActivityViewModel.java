@@ -312,5 +312,4 @@ public class MainActivityViewModel extends AndroidViewModel {
         return loading;
     }
 
-
 }

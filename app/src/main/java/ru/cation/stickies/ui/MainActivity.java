@@ -13,22 +13,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.List;
-
-
-import io.reactivex.Observable;
-import io.reactivex.Single;
-import io.reactivex.schedulers.Schedulers;
-import ru.cation.stickies.R;
 import ru.cation.stickies.adapters.MainGridAdapter;
 import ru.cation.stickies.databinding.ActivityMainBinding;
 import ru.cation.stickies.models.StickiesItem;
@@ -125,9 +109,9 @@ public class MainActivity extends AppCompatActivity {
 
         //следим если идет синхронизация то показываем загрузочку
         viewModel.getLoadingLiveData().observe(this, loading -> {
-            if(loading){
+            if (loading) {
                 binding.loadingBar.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 binding.loadingBar.setVisibility(View.GONE);
             }
         });
@@ -163,9 +147,8 @@ public class MainActivity extends AppCompatActivity {
     public void syncClick() {
         if (userIP != "noIP") {
             viewModel.sync();
-        }
-        else{
-            Toast.makeText(this,"Enter IP",Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Enter IP", Toast.LENGTH_SHORT).show();
         }
     }
 
